@@ -17,3 +17,9 @@ Funcionalidade: Consulta de tipos de resíduos
     Quando eu realizar uma requisição GET para consultar o tipo de resíduo com ID 9999
     Então o código de resposta HTTP deve ser 404
     E a resposta deve informar que o tipo de resíduo não foi encontrado
+
+  Cenário: Cadastrar um novo tipo de resíduo com sucesso
+    Dado que a API EcoColeta está disponível
+    Quando eu realizar uma requisição POST autenticada para cadastrar um tipo de resíduo
+    Então o cadastro do tipo de resíduo deve ser realizado com sucesso
+    E a resposta deve conter os dados do tipo de resíduo cadastrado
