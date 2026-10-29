@@ -6,6 +6,8 @@ import io.cucumber.java.pt.Entao;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+
 
 public class TipoResiduoSteps {
 
@@ -47,6 +49,10 @@ public class TipoResiduoSteps {
                 response.jsonPath().getList("$") != null
                         && !response.jsonPath().getList("$").isEmpty()
         );
+
+        response.then()
+                .assertThat()
+                .body(matchesJsonSchemaInClasspath("schemas/tipo_residuo_lista_schema.json"));
 
     }
 
@@ -136,6 +142,11 @@ public class TipoResiduoSteps {
         assertEquals("Residuo criado pelo teste automatizado", descricao);
         assertEquals(true, reciclavel);
         assertEquals(true, idTipoResiduoCriado > 0);
+
+        response.then()
+                .assertThat()
+                .body(matchesJsonSchemaInClasspath("schemas/tipo_residuo_schema.json"));
+
     }
 
     @Dado("que existe um tipo de resíduo criado para atualização")
