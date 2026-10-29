@@ -13,6 +13,8 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 public class PontoColetaSteps {
 
     private Response response;
+    private String usuario = System.getenv("ECOCOLETA_USER");
+    private String senha = System.getenv("ECOCOLETA_PASSWORD");
 
 
     @Quando("eu realizar uma requisição GET para consultar os pontos de coleta")
@@ -53,7 +55,48 @@ public class PontoColetaSteps {
 
     }
 
+    @Quando("eu cadastrar um novo ponto de coleta")
+    public void cadastrarNovoPontoDeColeta() {
 
+        String corpoRequisicao = """
+        {
+            "idPontoColeta": 0,
+            "nomePonto": "Ponto Teste Automatizado",
+            "localizacao": "Santo Andre - SP",
+            "capacidadeMaxima": 100,
+            "statusPonto": "Ativo"
+        }
+        """;
 
+        response = RestAssured.given()
+                .auth().preemptive().basic(usuario, senha)
+                .contentType("application/json")
+                .body(corpoRequisicao)
+                .when()
+                .post("/api/PontoColeta")
+                .then()
+                .log().all()
+                .extract().response();
+    }
 
+    @Entao("o cadastro do ponto de coleta deve ser realizado com sucesso")
+    public void validarSucessoCadastroPontoColeta() {
+
+        int statusCode = response.getStatusCode();
+
+        assertEquals(
+                true,
+                statusCode == 200 || statusCode == 201
+        );
+    }
+
+    @Entao("a resposta deve conter os dados do ponto de coleta cadastrado")
+    public void validarDadosPontoColetaCadastrado() {
+
+        response.then()
+                .assertThat()
+                .body(matchesJsonSchemaInClasspath(
+                        "schemas/ponto_coleta_schema.json"
+                ));
+    }
 }
