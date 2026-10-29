@@ -15,6 +15,7 @@ public class PontoColetaSteps {
     private Response response;
     private String usuario = System.getenv("ECOCOLETA_USER");
     private String senha = System.getenv("ECOCOLETA_PASSWORD");
+    private int idPontoColetaCriado;
 
 
     @Quando("eu realizar uma requisição GET para consultar os pontos de coleta")
@@ -77,6 +78,53 @@ public class PontoColetaSteps {
                 .then()
                 .log().all()
                 .extract().response();
+
+        if (response.getStatusCode() == 200 || response.getStatusCode() == 201) {
+            idPontoColetaCriado = response.jsonPath().getInt("idPontoColeta");
+        }
+    }
+
+    @Dado("que existe um ponto de coleta cadastrado para consulta")
+    public void prepararPontoDeColetaParaConsulta() {
+
+        cadastrarNovoPontoDeColeta();
+
+        assertEquals(
+                true,
+                idPontoColetaCriado > 0
+        );
+    }
+
+    @Quando("eu consultar o ponto de coleta pelo ID")
+    public void consultarPontoDeColetaPorId() {
+
+        response = RestAssured.given()
+                .when()
+                .get("/api/PontoColeta/" + idPontoColetaCriado)
+                .then()
+                .log().all()
+                .extract().response();
+    }
+
+    @Entao("o código de resposta HTTP da consulta por ID deve ser 200")
+    public void validarStatusHttp200ConsultaPorId() {
+
+        assertEquals(200, response.getStatusCode());
+    }
+
+    @Entao("a resposta deve conter os dados do ponto de coleta consultado")
+    public void validarDadosPontoDeColetaConsultado() {
+
+        assertEquals(
+                idPontoColetaCriado,
+                response.jsonPath().getInt("idPontoColeta")
+        );
+
+        response.then()
+                .assertThat()
+                .body(matchesJsonSchemaInClasspath(
+                        "schemas/ponto_coleta_schema.json"
+                ));
     }
 
     @Entao("o cadastro do ponto de coleta deve ser realizado com sucesso")

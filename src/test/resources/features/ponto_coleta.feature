@@ -17,3 +17,10 @@ Funcionalidade: Gerenciamento de pontos de coleta
     Quando eu cadastrar um novo ponto de coleta
     Então o cadastro do ponto de coleta deve ser realizado com sucesso
     E a resposta deve conter os dados do ponto de coleta cadastrado
+
+  Cenário: Consultar um ponto de coleta pelo ID com sucesso
+    Dado que a API EcoColeta está disponível
+    E que existe um ponto de coleta cadastrado para consulta
+    Quando eu consultar o ponto de coleta pelo ID
+    Então o código de resposta HTTP da consulta por ID deve ser 200
+    E a resposta deve conter os dados do ponto de coleta consultado
