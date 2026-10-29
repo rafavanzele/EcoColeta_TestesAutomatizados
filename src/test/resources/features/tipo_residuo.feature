@@ -23,3 +23,17 @@ Funcionalidade: Consulta de tipos de resíduos
     Quando eu realizar uma requisição POST autenticada para cadastrar um tipo de resíduo
     Então o cadastro do tipo de resíduo deve ser realizado com sucesso
     E a resposta deve conter os dados do tipo de resíduo cadastrado
+
+  Cenário: Atualizar um tipo de resíduo com sucesso
+    Dado que a API EcoColeta está disponível
+    E que existe um tipo de resíduo criado para atualização
+    Quando eu realizar uma requisição PUT autenticada para atualizar o tipo de resíduo
+    Então a atualização do tipo de resíduo deve ser realizada com sucesso
+    E os dados atualizados devem ser persistidos corretamente
+
+  Cenário: Excluir um tipo de resíduo com sucesso
+    Dado que a API EcoColeta está disponível
+    E que existe um tipo de resíduo criado para exclusão
+    Quando eu realizar uma requisição DELETE autenticada para excluir o tipo de resíduo
+    Então a exclusão do tipo de resíduo deve ser realizada com sucesso
+    E o tipo de resíduo excluído não deve mais existir
