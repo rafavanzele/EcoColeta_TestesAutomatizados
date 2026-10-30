@@ -24,3 +24,18 @@ Funcionalidade: Gerenciamento de pontos de coleta
     Quando eu consultar o ponto de coleta pelo ID
     Então o código de resposta HTTP da consulta por ID deve ser 200
     E a resposta deve conter os dados do ponto de coleta consultado
+
+  Cenário: Atualizar um ponto de coleta com sucesso
+    Dado que a API EcoColeta está disponível
+    E que existe um ponto de coleta cadastrado para atualização
+    Quando eu atualizar os dados do ponto de coleta
+    Então a atualização do ponto de coleta deve ser realizada com sucesso
+    E os dados atualizados do ponto de coleta devem ser persistidos corretamente
+
+
+  Cenário: Excluir um ponto de coleta com sucesso
+    Dado que a API EcoColeta está disponível
+    E que existe um ponto de coleta cadastrado para exclusão
+    Quando eu excluir o ponto de coleta pelo ID
+    Então a exclusão do ponto de coleta deve ser realizada com sucesso
+    E o ponto de coleta excluído não deve mais ser encontrado
