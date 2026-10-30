@@ -330,6 +330,46 @@ public class ColetaResiduoSteps {
         assertEquals(404, respostaConsulta.getStatusCode());
     }
 
+    @Quando("eu consultar uma coleta de resíduos com ID inexistente")
+    public void consultarColetaResiduoInexistente() {
+
+        response = RestAssured.given()
+                .auth().preemptive().basic(usuario, senha)
+                .when()
+                .get("/api/ColetaResiduo/999999999")
+                .then()
+                .log().all()
+                .extract().response();
+    }
+
+    @Entao("a consulta da coleta inexistente deve retornar HTTP 404")
+    public void validarColetaResiduoInexistente() {
+
+        assertEquals(404, response.getStatusCode());
+
+    }
+
+    @Quando("eu tentar cadastrar uma coleta de resíduos sem autenticação")
+    public void tentarCadastrarColetaSemAutenticacao() {
+
+        response = RestAssured.given()
+                .contentType("application/json")
+                .body("{}")
+                .when()
+                .post("/api/ColetaResiduo")
+                .then()
+                .log().all()
+                .extract().response();
+    }
+
+
+    @Entao("a API deve retornar HTTP 401 para o cadastro não autorizado")
+    public void validarCadastroSemAutenticacao() {
+
+        assertEquals(401, response.getStatusCode());
+    }
+
+
     @After
     public void limparDadosTesteColetaResiduo() {
 

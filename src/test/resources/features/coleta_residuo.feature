@@ -42,3 +42,14 @@ Funcionalidade: Gerenciamento de coletas de resíduos
     Quando eu excluir a coleta de resíduos cadastrada
     Então a exclusão da coleta de resíduos deve ser realizada com sucesso
     E a coleta de resíduos excluída não deve mais existir
+
+  Cenário: Consultar uma coleta de resíduos inexistente
+    Dado que a API EcoColeta está disponível
+    Quando eu consultar uma coleta de resíduos com ID inexistente
+    Então a consulta da coleta inexistente deve retornar HTTP 404
+
+
+  Cenário: Impedir cadastro de coleta de resíduos sem autenticação
+    Dado que a API EcoColeta está disponível
+    Quando eu tentar cadastrar uma coleta de resíduos sem autenticação
+    Então a API deve retornar HTTP 401 para o cadastro não autorizado
