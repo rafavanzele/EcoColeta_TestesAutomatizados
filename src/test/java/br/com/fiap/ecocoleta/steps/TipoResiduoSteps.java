@@ -145,7 +145,8 @@ public class TipoResiduoSteps {
 
         response.then()
                 .assertThat()
-                .body(matchesJsonSchemaInClasspath("schemas/tipo_residuo_schema.json"));
+                .body(matchesJsonSchemaInClasspath(
+                        "schemas/tipo_residuo_schema.json"));
 
     }
 

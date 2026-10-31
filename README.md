@@ -260,7 +260,9 @@ Para configurar:
 1. Acesse **Run > Edit Configurations**.
 2. Selecione a configuração `RunCucumberTest`.
 3. Localize o campo **Environment variables**.
-4. Configure as variáveis de ambiente utilizadas pelo projeto para autenticação.
+4. Configure as seguintes variáveis de ambiente:
+- ECOCOLETA_USER — usuário utilizado na autenticação HTTP Basic.
+- ECOCOLETA_PASSWORD — senha utilizada na autenticação HTTP Basic.
 5. Salve as alterações clicando em **Apply** e **OK**.
 
 Por segurança, não inclua usuários e senhas reais no repositório.
